@@ -9,13 +9,14 @@ def newer_mapping(image_tags):
     key = list(image_tags.keys())[0]
     tags = {t.rsplit('-', 1)[0]: t for t in image_tags[key]}
     version = semantic_versioning(list(tags))
-    if not version:
-        return {}
-
-    return {
-        'tags': {key: tags[version]},
-        'app_version': version,
-    }
+    return (
+        {
+            'tags': {key: tags[version]},
+            'app_version': version,
+        }
+        if version
+        else {}
+    )
 
 
 if __name__ == '__main__':

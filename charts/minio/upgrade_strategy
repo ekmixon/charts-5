@@ -9,13 +9,14 @@ def newer_mapping(image_tags):
     key = list(image_tags.keys())[0]
     tags = {t.strip('RELEASE.'): t for t in image_tags[key] if t.startswith('RELEASE.') and t.endswith('Z')}
     version = datetime_versioning(list(tags), '%Y-%m-%dT%H-%M-%SZ')
-    if not version:
-        return {}
-
-    return {
-        'tags': {key: tags[version]},
-        'app_version': version.split('T')[0],
-    }
+    return (
+        {
+            'tags': {key: tags[version]},
+            'app_version': version.split('T')[0],
+        }
+        if version
+        else {}
+    )
 
 
 if __name__ == '__main__':

@@ -9,13 +9,14 @@ def newer_mapping(image_tags):
     key = list(image_tags.keys())[0]
     # 21.1 is greater then 21.1.0 so we reverse sort bfeore doing semantic versioning
     version = semantic_versioning(sorted(image_tags[key], reverse=True))
-    if not version:
-        return {}
-
-    return {
-        'tags': {key: version},
-        'app_version': version,
-    }
+    return (
+        {
+            'tags': {key: version},
+            'app_version': version,
+        }
+        if version
+        else {}
+    )
 
 
 if __name__ == '__main__':

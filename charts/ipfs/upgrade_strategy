@@ -8,13 +8,14 @@ from catalog_update.upgrade_strategy import semantic_versioning
 def newer_mapping(image_tags):
     key = list(image_tags.keys())[0]
     version = semantic_versioning(image_tags[key])
-    if not version:
-        return {}
-
-    return {
-        'tags': {key: f'v{version}'},
-        'app_version': f'v{version}',
-    }
+    return (
+        {
+            'tags': {key: f'v{version}'},
+            'app_version': f'v{version}',
+        }
+        if version
+        else {}
+    )
 
 
 if __name__ == '__main__':
